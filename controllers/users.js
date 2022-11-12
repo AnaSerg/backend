@@ -13,15 +13,11 @@ module.exports.getUserById = (req, res) => {
         res.status(404).send({ message: 'Пользователь по указанному _id не найден.' });
         return;
       }
-      if (!req.params.id) {
-        res.status(400).send({ message: 'Указан некорректный _id.' });
-        return;
-      }
       res.status(200).send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(404).send({ message: 'Введен некорректный _id при поиске пользователя.' });
+        res.status(400).send({ message: 'Введен некорректный _id при поиске пользователя.' });
       } else {
         res.status(500).send({ message: 'Произошла ошибка.' });
       }
