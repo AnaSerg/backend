@@ -22,7 +22,7 @@ app.use('/users', userRouter);
 app.use('/cards', cardRouter);
 
 app.use((req, res) => {
-  res.status(400).send({ message: 'Страница по указанному маршруту не найдена.' });
+  res.status(404).send({ message: 'Страница по указанному маршруту не найдена.' });
 });
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
