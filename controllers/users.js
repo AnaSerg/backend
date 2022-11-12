@@ -9,8 +9,8 @@ module.exports.getUsers = (req, res) => {
 module.exports.getUserById = (req, res) => {
   User.findById(req.params.id)
     .then((user) => {
-      if (!user) {
-        res.status(404).send({ message: 'Пользователь по указанному _id не найден.' });
+      if (!req.params.id) {
+        res.status(400).send({ message: 'Пользователь по указанному _id не найден.' });
         return;
       }
       res.send({ data: user });
@@ -52,14 +52,14 @@ module.exports.updateUserInfo = (req, res) => {
   )
     .then((user) => {
       if (!user) {
-        res.status(404).send({ message: 'Пользователь с указанным _id не найден.' });
+        res.status(400).send({ message: 'Пользователь с указанным _id не найден.' });
         return;
       }
       res.send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({ message: 'Переданы некорректные данные при обновлении профиля.' });
+        res.status(404).send({ message: 'Переданы некорректные данные при обновлении профиля.' });
       } else {
         res.status(500).send({ message: 'Произошла ошибка.' });
       }
@@ -87,7 +87,7 @@ module.exports.updateUserAvatar = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({ message: 'Переданы некорректные данные при обновлении аватара.' });
+        res.status(404).send({ message: 'Переданы некорректные данные при обновлении аватара.' });
       } else {
         res.status(500).send({ message: 'Произошла ошибка.' });
       }
