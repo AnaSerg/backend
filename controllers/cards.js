@@ -48,6 +48,10 @@ module.exports.likeCard = (req, res) => {
         res.status(400).send({ message: 'Передан несуществующий _id карточки.' });
         return;
       }
+      if (!req.params.cardId) {
+        res.status(404).send({ message: 'Передан несуществующий _id карточки.' });
+        return;
+      }
       res.status(201).send({ data: card });
     })
     .catch((err) => {
@@ -67,6 +71,10 @@ module.exports.dislikeCard = (req, res) => {
     .then((card) => {
       if (!card) {
         res.status(404).send({ message: 'Передан несуществующий _id карточки.' });
+        return;
+      }
+      if (!req.params.cardId) {
+        res.status(400).send({ message: 'Передан несуществующий _id карточки.' });
         return;
       }
       res.status(200).send({ data: card });
