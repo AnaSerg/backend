@@ -10,7 +10,7 @@
     "lint": "npx eslint"
   },
   "keywords": [],
-  "author": "",
+  "author": "Anastasia Sergeeva",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^8.27.0",
