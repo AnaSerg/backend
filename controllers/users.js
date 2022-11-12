@@ -9,11 +9,11 @@ module.exports.getUsers = (req, res) => {
 module.exports.getUserById = (req, res) => {
   User.findById(req.params.id)
     .then((user) => {
-      if (!req.params.id) {
-        res.status(404).send({ message: 'Пользователь по указанному _id не найден.' });
+      if (!user) {
+        res.status(400).send({ message: 'Пользователь по указанному _id не найден.' });
         return;
       }
-      res.send({ data: user });
+      res.status(200).send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
