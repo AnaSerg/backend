@@ -1,4 +1,4 @@
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const NotFoundError = require('../errors/NotFoundError');
@@ -22,16 +22,14 @@ module.exports.getUserById = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new BadRequestError('Введен некорректный _id при поиске пользователя.'));
+        return next(new BadRequestError('Введен некорректный _id при поиске пользователя.'));
       }
-      next(err);
+      return next(err);
     });
 };
 
 module.exports.getCurrentUser = (req, res, next) => {
-  const userId = req.user._id;
-
-  User.findById(userId)
+  User.findById(req.user._id)
     .then((user) => {
       if (!user) {
         throw new NotFoundError('Пользователь по указанному _id не найден.');
@@ -40,9 +38,9 @@ module.exports.getCurrentUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new BadRequestError('Введен некорректный _id при поиске пользователя.'));
+        return next(new BadRequestError('Введен некорректный _id при поиске пользователя.'));
       }
-      next(err);
+      return next(err);
     });
 };
 
@@ -51,7 +49,7 @@ module.exports.createUser = (req, res, next) => {
     name, about, avatar, password, email,
   } = req.body;
 
-  bcrypt.hash(password, 10)
+  return bcrypt.hash(password, 10)
     .then((hash) => User.create({
       name,
       about,
@@ -62,12 +60,12 @@ module.exports.createUser = (req, res, next) => {
     .then((user) => res.status(201).send({ data: user }))
     .catch((err) => {
       if (err.code === 11000) {
-        next(new ConflictError('Пользователь с таким email уже существует'));
+        return next(new ConflictError('Пользователь с таким email уже существует'));
       }
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные при создании пользователя.'));
+        return next(new BadRequestError('Переданы некорректные данные при создании пользователя.'));
       }
-      next(err);
+      return next(err);
     });
 };
 
@@ -91,9 +89,9 @@ module.exports.updateUserInfo = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные при обновлении профиля.'));
+        return next(new BadRequestError('Переданы некорректные данные при обновлении профиля.'));
       }
-      next(err);
+      return next(err);
     });
 };
 
