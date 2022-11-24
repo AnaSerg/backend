@@ -13,7 +13,7 @@ const userRouter = Router();
 userRouter.get('/', getUsers);
 userRouter.get('/:userId', celebrate({
   params: Joi.object().keys({
-    userId: Joi.string().alphanum().length(24).hex(),
+    id: Joi.string().alphanum().length(24).hex(),
   }),
 }), getUserById);
 userRouter.get('/me', getCurrentUser);
