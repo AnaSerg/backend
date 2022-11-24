@@ -8,10 +8,11 @@ const {
   updateUserAvatar,
   getCurrentUser,
 } = require('../controllers/users');
+const validateUserId = require('../utils/validation');
 
 const userRouter = Router();
 userRouter.get('/', getUsers);
-userRouter.get('/:userId', getUserById);
+userRouter.get('/:userId', validateUserId, getUserById);
 userRouter.get('/me', getCurrentUser);
 userRouter.patch('/me', celebrate({
   body: Joi.object().keys({
