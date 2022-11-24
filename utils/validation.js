@@ -28,4 +28,5 @@ const validateLogin = celebrate({
 module.exports = {
   validateUser,
   validateLogin,
+  validateURL,
 };
