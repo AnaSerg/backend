@@ -7,14 +7,14 @@ const {
   likeCard,
   dislikeCard,
 } = require('../controllers/cards');
-const { validateURL } = require('../utils/validation');
+const regEx = require('../constants/constants');
 
 const cardRouter = Router();
 cardRouter.get('/', getCards);
 cardRouter.post('/', celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
-    link: Joi.string().required().custom(validateURL),
+    link: Joi.string().required().pattern(regEx),
   }),
 }), createCard);
 cardRouter.delete('/:cardId', celebrate({
