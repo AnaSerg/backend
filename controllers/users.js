@@ -75,17 +75,16 @@ module.exports.updateUserInfo = (req, res, next) => {
   const { name, about } = req.body;
 
   User.findByIdAndUpdate(
-    req.params._id,
+    req.user._id,
     { name, about },
     {
       new: true,
       runValidators: true,
-      upsert: true,
     },
   )
     .then((user) => {
       if (!user) {
-        throw new BadRequestError('Пользователь с указанным _id не найден.');
+        throw new NotFoundError('Пользователь с указанным _id не найден.');
       }
       res.send({ data: user });
     })
@@ -101,23 +100,22 @@ module.exports.updateUserAvatar = (req, res, next) => {
   const { avatar } = req.body;
 
   User.findByIdAndUpdate(
-    req.params._id,
+    req.user._id,
     { avatar },
     {
       new: true,
       runValidators: true,
-      upsert: true,
     },
   )
     .then((user) => {
       if (!user) {
-        throw new BadRequestError('Пользователь с указанным _id не найден.');
+        throw new NotFoundError('Пользователь с указанным _id не найден.');
       }
       res.send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new NotFoundError('Переданы некорректные данные при обновлении аватара.'));
+        next(new BadRequestError('Переданы некорректные данные при обновлении аватара.'));
       }
       next(err);
     });

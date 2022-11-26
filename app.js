@@ -47,7 +47,8 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 
 app.use(errors());
 app.use((err, req, res, next) => {
-  const { statusCode = 500, message = 'Произошла ошибка' } = err;
+  const statusCode = err.statusCode || 500;
+  const message = statusCode === 500 ? 'Произошла ошибка' : err.message;
   res.status(statusCode).send({ message });
   next();
 });
