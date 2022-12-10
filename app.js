@@ -20,6 +20,7 @@ const options = {
   origin: [
     'http://localhost:3000',
     'https://anaserg.nomoredomains.club',
+    'http://anaserg.nomoredomains.club',
     'https://anaserg.github.io',
   ],
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
